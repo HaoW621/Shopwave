@@ -1,559 +1,543 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopWave</title>
+<!-- Adobe Spectrum CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum-css/3.0.0-alpha.1/vars.css">
+<style>
+  /* === Adobe Spectrum Design Tokens === */
+  :root {
+    --spectrum-global-color-blue-400: #2680eb;
+    --spectrum-global-color-blue-500: #1473e6;
+    --spectrum-global-color-blue-600: #0d66d0;
+    --spectrum-global-color-gray-50:  #ffffff;
+    --spectrum-global-color-gray-75:  #fafafa;
+    --spectrum-global-color-gray-100: #f5f5f5;
+    --spectrum-global-color-gray-200: #eaeaea;
+    --spectrum-global-color-gray-300: #d3d3d3;
+    --spectrum-global-color-gray-400: #bcbcbc;
+    --spectrum-global-color-gray-700: #4b4b4b;
+    --spectrum-global-color-gray-800: #2c2c2c;
+    --spectrum-global-color-gray-900: #1a1a1a;
+    --spectrum-global-color-red-500:  #e34850;
+    --spectrum-global-color-green-500:#2d9d78;
+    --spectrum-global-color-orange-500:#e68619;
+    --spectrum-alias-body-text-color: var(--spectrum-global-color-gray-800);
+    --spectrum-alias-border-color:    var(--spectrum-global-color-gray-300);
+    --spectrum-alias-background-color-default: var(--spectrum-global-color-gray-75);
+    --spectrum-alias-focus-color:     var(--spectrum-global-color-blue-500);
+    --spectrum-global-font-families-sans: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --spectrum-global-dimension-size-50:  4px;
+    --spectrum-global-dimension-size-100: 8px;
+    --spectrum-global-dimension-size-150: 12px;
+    --spectrum-global-dimension-size-200: 16px;
+    --spectrum-global-dimension-size-300: 24px;
+    --spectrum-global-dimension-size-400: 32px;
+    --spectrum-global-dimension-size-500: 40px;
+    --spectrum-global-dimension-size-600: 48px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--spectrum-global-font-families-sans);
+    background: var(--spectrum-alias-background-color-default);
+    color: var(--spectrum-alias-body-text-color);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ===== SHELL / TOP NAV ===== */
+  .spectrum-Shell {
+    background: var(--spectrum-global-color-gray-900);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 var(--spectrum-global-dimension-size-300);
+    gap: var(--spectrum-global-dimension-size-300);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .spectrum-Shell-appName {
+    font-size: 18px; font-weight: 700; letter-spacing: -.5px; color: #fff; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  }
+  .spectrum-Shell-appName .brand-icon {
+    width: 26px; height: 26px; background: var(--spectrum-global-color-blue-400);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .spectrum-Shell-search {
+    flex: 1; max-width: 440px;
+    display: flex; align-items: center;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px; overflow: hidden;
+    transition: background .15s, border-color .15s;
+  }
+  .spectrum-Shell-search:focus-within {
+    background: rgba(255,255,255,.18); border-color: var(--spectrum-global-color-blue-400);
+  }
+  .spectrum-Shell-search input {
+    flex: 1; background: transparent; border: none; color: #fff;
+    padding: 6px 12px; font-size: 13px; outline: none;
+  }
+  .spectrum-Shell-search input::placeholder { color: rgba(255,255,255,.5); }
+  .spectrum-Shell-search-icon { padding: 0 10px; opacity: .6; font-size: 13px; }
+  .spectrum-Shell-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+  /* Spectrum Button */
+  .spectrum-Button {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: none; border-radius: 4px; padding: 0 14px; height: 32px;
+    font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;
+    transition: background .12s, box-shadow .12s;
+    white-space: nowrap;
+  }
+  .spectrum-Button--cta {
+    background: var(--spectrum-global-color-blue-500); color: #fff;
+  }
+  .spectrum-Button--cta:hover { background: var(--spectrum-global-color-blue-600); }
+  .spectrum-Button--secondary {
+    background: transparent; color: rgba(255,255,255,.85);
+    border: 1px solid rgba(255,255,255,.3);
+  }
+  .spectrum-Button--secondary:hover { background: rgba(255,255,255,.1); }
+  .spectrum-Button--outline {
+    background: transparent; color: var(--spectrum-global-color-blue-500);
+    border: 1px solid var(--spectrum-global-color-blue-500);
+  }
+  .spectrum-Button--outline:hover { background: rgba(38,128,235,.08); }
+  .spectrum-Button--quiet {
+    background: transparent; color: var(--spectrum-alias-body-text-color);
+    border: 1px solid var(--spectrum-alias-border-color);
+  }
+  .spectrum-Button--quiet:hover { background: var(--spectrum-global-color-gray-100); }
+
+  .cart-badge {
+    background: var(--spectrum-global-color-red-500); color: #fff;
+    border-radius: 10px; min-width: 18px; height: 18px;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; padding: 0 4px;
+  }
+
+  /* ===== BREADCRUMB / SUBHEADER ===== */
+  .spectrum-Subheader {
+    background: var(--spectrum-global-color-gray-50);
+    border-bottom: 1px solid var(--spectrum-alias-border-color);
+    padding: 0 var(--spectrum-global-dimension-size-300);
+    display: flex; align-items: center; gap: var(--spectrum-global-dimension-size-100); height: 40px;
+    font-size: 12px; color: var(--spectrum-global-color-gray-700);
+  }
+  .spectrum-Subheader a { color: var(--spectrum-global-color-blue-500); text-decoration: none; }
+  .spectrum-Subheader a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--spectrum-global-color-gray-400); }
+
+  /* ===== HERO ===== */
+  .spectrum-Hero {
+    background: linear-gradient(120deg, #0f3557 0%, #1473e6 100%);
+    color: #fff; padding: 56px var(--spectrum-global-dimension-size-300) 52px;
+    text-align: center;
+  }
+  .spectrum-Hero-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: .7; margin-bottom: 10px; }
+  .spectrum-Hero-heading { font-size: 2.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 12px; letter-spacing: -.5px; }
+  .spectrum-Hero-body { font-size: 16px; opacity: .82; margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .spectrum-Hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .spectrum-Hero-actions .spectrum-Button { height: 40px; padding: 0 24px; font-size: 14px; border-radius: 4px; }
+
+  /* ===== RAIL + CONTENT LAYOUT ===== */
+  .spectrum-Layout { display: flex; max-width: 1280px; margin: 0 auto; padding: var(--spectrum-global-dimension-size-300); gap: var(--spectrum-global-dimension-size-300); align-items: flex-start; }
+
+  /* Left Rail */
+  .spectrum-Rail {
+    width: 200px; flex-shrink: 0;
+    background: var(--spectrum-global-color-gray-50);
+    border: 1px solid var(--spectrum-alias-border-color);
+    border-radius: 4px; overflow: hidden;
+  }
+  .spectrum-Rail-title {
+    padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--spectrum-global-color-gray-700);
+    border-bottom: 1px solid var(--spectrum-alias-border-color);
+    background: var(--spectrum-global-color-gray-100);
+  }
+  .spectrum-SideNav { list-style: none; }
+  .spectrum-SideNav-item { border-bottom: 1px solid var(--spectrum-global-color-gray-200); }
+  .spectrum-SideNav-item:last-child { border-bottom: none; }
+  .spectrum-SideNav-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; font-size: 13px; color: var(--spectrum-alias-body-text-color);
+    cursor: pointer; transition: background .1s;
+    border: none; background: transparent; width: 100%; text-align: left; font-family: inherit;
+  }
+  .spectrum-SideNav-link:hover { background: var(--spectrum-global-color-gray-100); }
+  .spectrum-SideNav-link.is-selected {
+    color: var(--spectrum-global-color-blue-500); font-weight: 600;
+    background: rgba(38,128,235,.07);
+    border-left: 3px solid var(--spectrum-global-color-blue-500);
+    padding-left: 13px;
+  }
+  .spectrum-SideNav-count {
+    background: var(--spectrum-global-color-gray-200); color: var(--spectrum-global-color-gray-700);
+    border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 600;
+  }
+
+  /* Main content */
+  .spectrum-Content { flex: 1; min-width: 0; }
+
+  /* Toolbar */
+  .spectrum-Toolbar {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 10px; margin-bottom: var(--spectrum-global-dimension-size-200);
+  }
+  .spectrum-Toolbar-title { font-size: 18px; font-weight: 700; }
+  .spectrum-Toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+  /* Tag / Pill */
+  .spectrum-Tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--spectrum-global-color-gray-200); color: var(--spectrum-global-color-gray-800);
+    border-radius: 3px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+  }
+  .spectrum-Tag--blue { background: rgba(38,128,235,.12); color: var(--spectrum-global-color-blue-600); }
+  .spectrum-Tag--green { background: rgba(45,157,120,.12); color: var(--spectrum-global-color-green-500); }
+  .spectrum-Tag--orange { background: rgba(230,134,25,.12); color: var(--spectrum-global-color-orange-500); }
+  .spectrum-Tag--red { background: rgba(227,72,80,.12); color: var(--spectrum-global-color-red-500); }
+
+  /* ===== PRODUCT CARD ===== */
+  .spectrum-Grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .spectrum-Card {
+    background: var(--spectrum-global-color-gray-50);
+    border: 1px solid var(--spectrum-alias-border-color);
+    border-radius: 4px; overflow: hidden;
+    transition: border-color .15s, box-shadow .15s; cursor: pointer;
+    display: flex; flex-direction: column;
+  }
+  .spectrum-Card:hover {
+    border-color: var(--spectrum-global-color-blue-400);
+    box-shadow: 0 2px 16px rgba(38,128,235,.13);
+  }
+  .spectrum-Card-preview {
+    height: 160px; display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; background: var(--spectrum-global-color-gray-100);
+    border-bottom: 1px solid var(--spectrum-alias-border-color); position: relative;
+  }
+  .spectrum-Card-badge {
+    position: absolute; top: 10px; right: 10px;
+  }
+  .spectrum-Card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+  .spectrum-Card-subtitle { font-size: 11px; color: var(--spectrum-global-color-gray-700); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+  .spectrum-Card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .spectrum-Card-desc { font-size: 12px; color: var(--spectrum-global-color-gray-700); flex: 1; line-height: 1.5; margin-bottom: 14px; }
+  .spectrum-Card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .spectrum-Card-price { font-size: 16px; font-weight: 700; color: var(--spectrum-global-color-gray-900); }
+  .spectrum-Card-price small { font-size: 11px; font-weight: 400; color: var(--spectrum-global-color-gray-700); }
+
+  /* ===== CART DRAWER ===== */
+  .spectrum-Overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.4);
+    z-index: 200; display: none; backdrop-filter: blur(2px);
+  }
+  .spectrum-Overlay.is-open { display: block; }
+  .spectrum-Drawer {
+    position: fixed; right: 0; top: 0; bottom: 0; width: 400px; max-width: 100vw;
+    background: var(--spectrum-global-color-gray-50);
+    border-left: 1px solid var(--spectrum-alias-border-color);
+    z-index: 201; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform .22s cubic-bezier(.4,0,.2,1);
+  }
+  .spectrum-Drawer.is-open { transform: translateX(0); }
+  .spectrum-Drawer-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--spectrum-alias-border-color);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--spectrum-global-color-gray-100);
+  }
+  .spectrum-Drawer-header h2 { font-size: 16px; font-weight: 700; }
+  .spectrum-ActionButton {
+    background: transparent; border: 1px solid transparent; border-radius: 4px;
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 14px; color: var(--spectrum-global-color-gray-700);
+    transition: background .1s, border-color .1s;
+  }
+  .spectrum-ActionButton:hover { background: var(--spectrum-global-color-gray-200); border-color: var(--spectrum-alias-border-color); }
+  .spectrum-Drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+  .spectrum-Cart-empty { text-align: center; color: var(--spectrum-global-color-gray-700); padding: 60px 0; }
+  .spectrum-Cart-empty-icon { font-size: 3rem; margin-bottom: 12px; }
+  .spectrum-CartItem {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px 0; border-bottom: 1px solid var(--spectrum-alias-border-color);
+  }
+  .spectrum-CartItem-icon {
+    width: 52px; height: 52px; border-radius: 4px; flex-shrink: 0;
+    background: var(--spectrum-global-color-gray-100);
+    border: 1px solid var(--spectrum-alias-border-color);
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+  }
+  .spectrum-CartItem-info { flex: 1; min-width: 0; }
+  .spectrum-CartItem-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .spectrum-CartItem-price { font-size: 12px; color: var(--spectrum-global-color-gray-700); }
+  .spectrum-Stepper { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  .spectrum-Stepper-btn {
+    width: 24px; height: 24px; border-radius: 3px; border: 1px solid var(--spectrum-alias-border-color);
+    background: var(--spectrum-global-color-gray-50); font-size: 14px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--spectrum-global-color-gray-800); line-height: 1;
+    transition: background .1s;
+  }
+  .spectrum-Stepper-btn:hover { background: var(--spectrum-global-color-gray-100); border-color: var(--spectrum-global-color-gray-400); }
+  .spectrum-Stepper-value { font-size: 13px; font-weight: 700; min-width: 20px; text-align: center; }
+  .spectrum-Drawer-footer {
+    padding: 16px 20px; border-top: 1px solid var(--spectrum-alias-border-color);
+    background: var(--spectrum-global-color-gray-100);
+  }
+  .spectrum-Drawer-total {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px; font-size: 15px; font-weight: 700;
+  }
+  .spectrum-Divider { border: none; border-top: 1px solid var(--spectrum-alias-border-color); margin: 12px 0; }
+  .spectrum-Button--full { width: 100%; justify-content: center; height: 40px; font-size: 14px; border-radius: 4px; }
+
+  /* ===== TOAST ===== */
+  .spectrum-Toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(70px);
+    background: var(--spectrum-global-color-gray-900); color: #fff;
+    border-radius: 4px; padding: 10px 20px;
+    font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none;
+    transition: all .25s; z-index: 400; display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.3); white-space: nowrap;
+  }
+  .spectrum-Toast.is-open { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Empty state */
+  .spectrum-EmptyState { text-align: center; padding: 48px 20px; color: var(--spectrum-global-color-gray-700); }
+  .spectrum-EmptyState-icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .spectrum-EmptyState-heading { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+
+  @media (max-width: 768px) {
+    .spectrum-Rail { display: none; }
+    .spectrum-Layout { padding: 16px; }
+    .spectrum-Hero-heading { font-size: 1.7rem; }
+  }
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ja"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;ShopWave&lt;/title&gt;</p>
-<p class="p1">&lt;!-- Adobe Spectrum CSS --&gt;</p>
-<p class="p1">&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum-css/3.0.0-alpha.1/vars.css"&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* === Adobe Spectrum Design Tokens === */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-blue-400: #2680eb;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-blue-500: #1473e6;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-blue-600: #0d66d0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-50:<span class="Apple-converted-space">  </span>#ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-75:<span class="Apple-converted-space">  </span>#fafafa;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-100: #f5f5f5;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-200: #eaeaea;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-300: #d3d3d3;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-400: #bcbcbc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-700: #4b4b4b;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-800: #2c2c2c;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-gray-900: #1a1a1a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-red-500:<span class="Apple-converted-space">  </span>#e34850;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-green-500:#2d9d78;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-color-orange-500:#e68619;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-alias-body-text-color: var(--spectrum-global-color-gray-800);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-alias-border-color:<span class="Apple-converted-space">    </span>var(--spectrum-global-color-gray-300);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-alias-background-color-default: var(--spectrum-global-color-gray-75);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-alias-focus-color: <span class="Apple-converted-space">    </span>var(--spectrum-global-color-blue-500);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-font-families-sans: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-50:<span class="Apple-converted-space">  </span>4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-100: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-150: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-200: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-300: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-400: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-500: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--spectrum-global-dimension-size-600: 48px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: var(--spectrum-global-font-families-sans);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-alias-background-color-default);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--spectrum-alias-body-text-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.5;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== SHELL / TOP NAV ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-900);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 48px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0 var(--spectrum-global-dimension-size-300);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: var(--spectrum-global-dimension-size-300);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: sticky; top: 0; z-index: 100;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-appName {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 18px; font-weight: 700; letter-spacing: -.5px; color: #fff; cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; gap: 8px; flex-shrink: 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-appName .brand-icon {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 26px; height: 26px; background: var(--spectrum-global-color-blue-400);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-search {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex: 1; max-width: 440px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 4px; overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: background .15s, border-color .15s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-search:focus-within {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,.18); border-color: var(--spectrum-global-color-blue-400);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-search input {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex: 1; background: transparent; border: none; color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 6px 12px; font-size: 13px; outline: none;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-search input::placeholder { color: rgba(255,255,255,.5); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-search-icon { padding: 0 10px; opacity: .6; font-size: 13px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Shell-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Spectrum Button */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: inline-flex; align-items: center; gap: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: none; border-radius: 4px; padding: 0 14px; height: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: background .12s, box-shadow .12s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>white-space: nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--cta {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-blue-500); color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--cta:hover { background: var(--spectrum-global-color-blue-600); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--secondary {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: transparent; color: rgba(255,255,255,.85);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(255,255,255,.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--secondary:hover { background: rgba(255,255,255,.1); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--outline {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: transparent; color: var(--spectrum-global-color-blue-500);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--spectrum-global-color-blue-500);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--outline:hover { background: rgba(38,128,235,.08); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--quiet {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: transparent; color: var(--spectrum-alias-body-text-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--quiet:hover { background: var(--spectrum-global-color-gray-100); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cart-badge {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-red-500); color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px; min-width: 18px; height: 18px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 11px; font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; justify-content: center; padding: 0 4px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== BREADCRUMB / SUBHEADER ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Subheader {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-50);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0 var(--spectrum-global-dimension-size-300);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; gap: var(--spectrum-global-dimension-size-100); height: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 12px; color: var(--spectrum-global-color-gray-700);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Subheader a { color: var(--spectrum-global-color-blue-500); text-decoration: none; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Subheader a:hover { text-decoration: underline; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.breadcrumb-sep { color: var(--spectrum-global-color-gray-400); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== HERO ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(120deg, #0f3557 0%, #1473e6 100%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #fff; padding: 56px var(--spectrum-global-dimension-size-300) 52px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: .7; margin-bottom: 10px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero-heading { font-size: 2.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 12px; letter-spacing: -.5px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero-body { font-size: 16px; opacity: .82; margin-bottom: 28px; max-width: 480px; margin-left: auto; margin-right: auto; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Hero-actions .spectrum-Button { height: 40px; padding: 0 24px; font-size: 14px; border-radius: 4px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== RAIL + CONTENT LAYOUT ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Layout { display: flex; max-width: 1280px; margin: 0 auto; padding: var(--spectrum-global-dimension-size-300); gap: var(--spectrum-global-dimension-size-300); align-items: flex-start; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Left Rail */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Rail {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 200px; flex-shrink: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-50);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 4px; overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Rail-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 1px; color: var(--spectrum-global-color-gray-700);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-100);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav { list-style: none; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-item { border-bottom: 1px solid var(--spectrum-global-color-gray-200); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-item:last-child { border-bottom: none; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-link {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px 16px; font-size: 13px; color: var(--spectrum-alias-body-text-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer; transition: background .1s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: none; background: transparent; width: 100%; text-align: left; font-family: inherit;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-link:hover { background: var(--spectrum-global-color-gray-100); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-link.is-selected {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--spectrum-global-color-blue-500); font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(38,128,235,.07);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-left: 3px solid var(--spectrum-global-color-blue-500);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-left: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-SideNav-count {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-200); color: var(--spectrum-global-color-gray-700);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Main content */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Content { flex: 1; min-width: 0; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Toolbar */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Toolbar {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 10px; margin-bottom: var(--spectrum-global-dimension-size-200);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Toolbar-title { font-size: 18px; font-weight: 700; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Toolbar-right { display: flex; align-items: center; gap: 8px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Tag / Pill */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Tag {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: inline-flex; align-items: center; gap: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-200); color: var(--spectrum-global-color-gray-800);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 3px; padding: 2px 8px; font-size: 11px; font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Tag--blue { background: rgba(38,128,235,.12); color: var(--spectrum-global-color-blue-600); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Tag--green { background: rgba(45,157,120,.12); color: var(--spectrum-global-color-green-500); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Tag--orange { background: rgba(230,134,25,.12); color: var(--spectrum-global-color-orange-500); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Tag--red { background: rgba(227,72,80,.12); color: var(--spectrum-global-color-red-500); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== PRODUCT CARD ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-50);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 4px; overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: border-color .15s, box-shadow .15s; cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card:hover {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-color: var(--spectrum-global-color-blue-400);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 2px 16px rgba(38,128,235,.13);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-preview {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 160px; display: flex; align-items: center; justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 4rem; background: var(--spectrum-global-color-gray-100);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid var(--spectrum-alias-border-color); position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-badge {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute; top: 10px; right: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-subtitle { font-size: 11px; color: var(--spectrum-global-color-gray-700); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-desc { font-size: 12px; color: var(--spectrum-global-color-gray-700); flex: 1; line-height: 1.5; margin-bottom: 14px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-footer { display: flex; align-items: center; justify-content: space-between; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-price { font-size: 16px; font-weight: 700; color: var(--spectrum-global-color-gray-900); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Card-price small { font-size: 11px; font-weight: 400; color: var(--spectrum-global-color-gray-700); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== CART DRAWER ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Overlay {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: fixed; inset: 0; background: rgba(0,0,0,.4);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 200; display: none; backdrop-filter: blur(2px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Overlay.is-open { display: block; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: fixed; right: 0; top: 0; bottom: 0; width: 400px; max-width: 100vw;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-50);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-left: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 201; display: flex; flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateX(100%); transition: transform .22s cubic-bezier(.4,0,.2,1);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer.is-open { transform: translateX(0); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer-header {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 16px 20px; border-bottom: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-100);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer-header h2 { font-size: 16px; font-weight: 700; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-ActionButton {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: transparent; border: 1px solid transparent; border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer; font-size: 14px; color: var(--spectrum-global-color-gray-700);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: background .1s, border-color .1s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-ActionButton:hover { background: var(--spectrum-global-color-gray-200); border-color: var(--spectrum-alias-border-color); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Cart-empty { text-align: center; color: var(--spectrum-global-color-gray-700); padding: 60px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Cart-empty-icon { font-size: 3rem; margin-bottom: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-CartItem {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; gap: 12px; align-items: flex-start;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 14px 0; border-bottom: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-CartItem-icon {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 52px; height: 52px; border-radius: 4px; flex-shrink: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-100);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; align-items: center; justify-content: center; font-size: 1.6rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-CartItem-info { flex: 1; min-width: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-CartItem-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-CartItem-price { font-size: 12px; color: var(--spectrum-global-color-gray-700); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Stepper { display: flex; align-items: center; gap: 6px; margin-top: 8px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Stepper-btn {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 24px; height: 24px; border-radius: 3px; border: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-50); font-size: 14px; font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer; display: flex; align-items: center; justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--spectrum-global-color-gray-800); line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: background .1s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Stepper-btn:hover { background: var(--spectrum-global-color-gray-100); border-color: var(--spectrum-global-color-gray-400); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Stepper-value { font-size: 13px; font-weight: 700; min-width: 20px; text-align: center; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer-footer {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 16px 20px; border-top: 1px solid var(--spectrum-alias-border-color);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-100);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Drawer-total {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex; justify-content: space-between; align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 14px; font-size: 15px; font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Divider { border: none; border-top: 1px solid var(--spectrum-alias-border-color); margin: 12px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Button--full { width: 100%; justify-content: center; height: 40px; font-size: 14px; border-radius: 4px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== TOAST ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Toast {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: fixed; bottom: 28px; left: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateX(-50%) translateY(70px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--spectrum-global-color-gray-900); color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 4px; padding: 10px 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: all .25s; z-index: 400; display: flex; align-items: center; gap: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 4px 20px rgba(0,0,0,.3); white-space: nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-Toast.is-open { opacity: 1; transform: translateX(-50%) translateY(0); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Empty state */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-EmptyState { text-align: center; padding: 48px 20px; color: var(--spectrum-global-color-gray-700); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-EmptyState-icon { font-size: 2.5rem; margin-bottom: 10px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spectrum-EmptyState-heading { font-size: 16px; font-weight: 700; margin-bottom: 6px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width: 768px) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.spectrum-Rail { display: none; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.spectrum-Layout { padding: 16px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.spectrum-Hero-heading { font-size: 1.7rem; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Top Navigation Shell --&gt;</p>
-<p class="p1">&lt;header class="spectrum-Shell"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Shell-appName" onclick="window.scrollTo({top:0,behavior:'smooth'})"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="brand-icon"&gt;🛍&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ShopWave</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Shell-search"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="spectrum-Shell-search-icon"&gt;🔍&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="searchInput" placeholder="商品を検索..." oninput="filterProducts()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Shell-actions"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="spectrum-Button spectrum-Button--secondary" onclick="toggleCart()"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>🛒 カート &lt;span class="cart-badge" id="cartBadge"&gt;0&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Breadcrumb --&gt;</p>
-<p class="p1">&lt;nav class="spectrum-Subheader"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;a href="#"&gt;ホーム&lt;/a&gt;&lt;span class="breadcrumb-sep"&gt;/&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;span id="breadcrumbCat"&gt;すべての商品&lt;/span&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Hero --&gt;</p>
-<p class="p1">&lt;section class="spectrum-Hero"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Hero-eyebrow"&gt;Spring Collection 2025&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1 class="spectrum-Hero-heading"&gt;トレンドを、あなたの手に。&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p class="spectrum-Hero-body"&gt;最新アイテムが毎日入荷中。送料無料・翌日配送対応。&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Hero-actions"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="spectrum-Button spectrum-Button--cta" onclick="document.getElementById('main').scrollIntoView({behavior:'smooth'})"&gt;今すぐショッピング&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="spectrum-Button spectrum-Button--secondary"&gt;キャンペーンを見る&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Main Layout --&gt;</p>
-<p class="p1">&lt;div class="spectrum-Layout" id="main"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Left Rail --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;aside class="spectrum-Rail"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="spectrum-Rail-title"&gt;カテゴリー&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;ul class="spectrum-SideNav" id="sideNav"&gt;&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/aside&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Content --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="spectrum-Content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="spectrum-Toolbar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-Toolbar-title" id="sectionTitle"&gt;すべての商品&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-Toolbar-right"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="spectrum-Tag" id="resultCount"&gt;12件&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="spectrum-Grid" id="productGrid"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Cart Drawer --&gt;</p>
-<p class="p1">&lt;div class="spectrum-Overlay" id="overlay" onclick="toggleCart()"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="spectrum-Drawer" id="drawer"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Drawer-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;🛒 カート&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="spectrum-ActionButton" onclick="toggleCart()" title="閉じる"&gt;✕&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Drawer-body" id="cartBody"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="spectrum-Drawer-footer" id="cartFooter" style="display:none"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="spectrum-Drawer-total"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span&gt;合計金額&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span id="totalPrice"&gt;¥0&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;hr class="spectrum-Divider"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="spectrum-Button spectrum-Button--cta spectrum-Button--full" onclick="checkout()"&gt;レジへ進む →&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Toast --&gt;</p>
-<p class="p1">&lt;div class="spectrum-Toast" id="toast"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">const PRODUCTS = [</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:1,<span class="Apple-converted-space">  </span>name:'ワイヤレスイヤホン Pro', cat:'電子機器', price:12800, emoji:'🎧', desc:'ノイズキャンセリング搭載。最大30時間再生。', isNew:true },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:2,<span class="Apple-converted-space">  </span>name:'スマートウォッチ X5',<span class="Apple-converted-space">    </span>cat:'電子機器', price:24800, emoji:'⌚', desc:'健康管理・GPS対応。防水仕様。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:3,<span class="Apple-converted-space">  </span>name:'メカニカルキーボード', <span class="Apple-converted-space">  </span>cat:'電子機器', price:8900,<span class="Apple-converted-space">  </span>emoji:'⌨️', desc:'RGB対応。打鍵感抜群の青軸モデル。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:4,<span class="Apple-converted-space">  </span>name:'プレミアムスニーカー', <span class="Apple-converted-space">  </span>cat:'ファッション', price:15000, emoji:'👟', desc:'軽量ソール採用。カジュアル〜スポーツまで。', isNew:true },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:5,<span class="Apple-converted-space">  </span>name:'ミニマルレザー財布', <span class="Apple-converted-space">    </span>cat:'ファッション', price:5800,<span class="Apple-converted-space">  </span>emoji:'👛', desc:'イタリア製本革。カードスロット×8。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:6,<span class="Apple-converted-space">  </span>name:'デザインTシャツ',<span class="Apple-converted-space">        </span>cat:'ファッション', price:3200,<span class="Apple-converted-space">  </span>emoji:'👕', desc:'オーガニックコットン100%。全12色展開。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:7,<span class="Apple-converted-space">  </span>name:'アロマディフューザー', <span class="Apple-converted-space">  </span>cat:'インテリア', price:4500,<span class="Apple-converted-space">  </span>emoji:'🕯️', desc:'超音波式。7色LEDライト内蔵。', isNew:true },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:8,<span class="Apple-converted-space">  </span>name:'北欧風クッション', <span class="Apple-converted-space">      </span>cat:'インテリア', price:2800,<span class="Apple-converted-space">  </span>emoji:'🛋️', desc:'やわらかマイクロファイバー素材。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:9,<span class="Apple-converted-space">  </span>name:'観葉植物セット', <span class="Apple-converted-space">        </span>cat:'インテリア', price:6200,<span class="Apple-converted-space">  </span>emoji:'🪴', desc:'初心者向け3点セット。鉢付き。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:10, name:'コールドブリューボトル', cat:'キッチン', price:3600,<span class="Apple-converted-space">  </span>emoji:'🫙', desc:'ガラス製1L。冷蔵庫にすっきり収納。', isNew:true },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:11, name:'セラミックマグカップ', <span class="Apple-converted-space">  </span>cat:'キッチン', price:1800,<span class="Apple-converted-space">  </span>emoji:'☕', desc:'電子レンジ・食洗機対応。300ml。', isNew:false },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{ id:12, name:'電動ハンドミキサー', <span class="Apple-converted-space">    </span>cat:'キッチン', price:5400,<span class="Apple-converted-space">  </span>emoji:'🍳', desc:'5段階速度調節。パワフル200W。', isNew:false },</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">const CATS = ['すべて', ...new Set(PRODUCTS.map(p =&gt; p.cat))];</p>
-<p class="p1">const CAT_LABEL = { 'すべて':'すべての商品', '電子機器':'電子機器', 'ファッション':'ファッション', 'インテリア':'インテリア', 'キッチン':'キッチン' };</p>
-<p class="p1">let currentCat = 'すべて', searchQ = '', cart = {};</p>
-<p class="p2"><br></p>
-<p class="p1">// Side Nav</p>
-<p class="p1">const nav = document.getElementById('sideNav');</p>
-<p class="p1">CATS.forEach(c =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const cnt = c === 'すべて' ? PRODUCTS.length : PRODUCTS.filter(p =&gt; p.cat === c).length;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const li = document.createElement('li'); li.className = 'spectrum-SideNav-item';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const btn = document.createElement('button');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>btn.className = 'spectrum-SideNav-link' + (c === currentCat ? ' is-selected' : '');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>btn.innerHTML = `&lt;span&gt;${CAT_LABEL[c]}&lt;/span&gt;&lt;span class="spectrum-SideNav-count"&gt;${cnt}&lt;/span&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>btn.onclick = () =&gt; { currentCat = c; renderNav(); renderProducts(); updateBreadcrumb(); };</p>
-<p class="p1"><span class="Apple-converted-space">  </span>li.appendChild(btn); nav.appendChild(li);</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">function renderNav() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>nav.querySelectorAll('.spectrum-SideNav-link').forEach((b, i) =&gt; b.classList.toggle('is-selected', CATS[i] === currentCat));</p>
-<p class="p1">}</p>
-<p class="p1">function updateBreadcrumb() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('breadcrumbCat').textContent = CAT_LABEL[currentCat] || currentCat;</p>
-<p class="p1">}</p>
-<p class="p1">function filterProducts() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>searchQ = document.getElementById('searchInput').value.trim().toLowerCase();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>renderProducts();</p>
-<p class="p1">}</p>
-<p class="p1">function renderProducts() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const grid = document.getElementById('productGrid');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const title = document.getElementById('sectionTitle');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const cnt = document.getElementById('resultCount');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let filtered = PRODUCTS.filter(p =&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>(currentCat === 'すべて' || p.cat === currentCat) &amp;&amp;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>(!searchQ || p.name.toLowerCase().includes(searchQ) || p.cat.includes(searchQ) || p.desc.includes(searchQ))</p>
-<p class="p1"><span class="Apple-converted-space">  </span>);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>title.textContent = CAT_LABEL[currentCat] || currentCat;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cnt.textContent = `${filtered.length}件`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>grid.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (!filtered.length) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid.innerHTML = `&lt;div class="spectrum-EmptyState" style="grid-column:1/-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-EmptyState-icon"&gt;🔍&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-EmptyState-heading"&gt;該当する商品が見つかりません&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="font-size:13px"&gt;検索ワードやカテゴリーを変更してみてください。&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`; return;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>filtered.forEach(p =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const el = document.createElement('div'); el.className = 'spectrum-Card';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>el.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-Card-preview"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>${p.emoji}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>${p.isNew ? '&lt;span class="spectrum-Tag spectrum-Tag--blue spectrum-Card-badge"&gt;NEW&lt;/span&gt;' : ''}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-Card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-Card-subtitle"&gt;${p.cat}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-Card-title"&gt;${p.name}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-Card-desc"&gt;${p.desc}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-Card-footer"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="spectrum-Card-price"&gt;¥${p.price.toLocaleString()} &lt;small&gt;税込&lt;/small&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="spectrum-Button spectrum-Button--cta" style="height:28px;padding:0 12px;font-size:12px" onclick="addToCart(${p.id})"&gt;+ 追加&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid.appendChild(el);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function addToCart(id) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cart[id] = (cart[id] || 0) + 1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>updateCartBadge();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const p = PRODUCTS.find(x =&gt; x.id === id);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>showToast(`✅ ${p.name} をカートに追加しました`);</p>
-<p class="p1">}</p>
-<p class="p1">function removeFromCart(id) { delete cart[id]; updateCartBadge(); renderCart(); }</p>
-<p class="p1">function changeQty(id, d) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cart[id] = (cart[id] || 0) + d;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (cart[id] &lt;= 0) delete cart[id];</p>
-<p class="p1"><span class="Apple-converted-space">  </span>updateCartBadge(); renderCart();</p>
-<p class="p1">}</p>
-<p class="p1">function updateCartBadge() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('cartBadge').textContent = Object.values(cart).reduce((a,b)=&gt;a+b,0);</p>
-<p class="p1">}</p>
-<p class="p1">function renderCart() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const body = document.getElementById('cartBody'), footer = document.getElementById('cartFooter');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const keys = Object.keys(cart);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (!keys.length) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body.innerHTML = `&lt;div class="spectrum-Cart-empty"&gt;&lt;div class="spectrum-Cart-empty-icon"&gt;🛒&lt;/div&gt;&lt;p&gt;カートに商品がありません&lt;/p&gt;&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>footer.style.display = 'none'; return;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer.style.display = '';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let total = 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>body.innerHTML = keys.map(id =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const p = PRODUCTS.find(x =&gt; x.id == id), sub = p.price * cart[id]; total += sub;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return `&lt;div class="spectrum-CartItem"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-CartItem-icon"&gt;${p.emoji}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spectrum-CartItem-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-CartItem-name"&gt;${p.name}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-CartItem-price"&gt;¥${p.price.toLocaleString()} × ${cart[id]} = ¥${sub.toLocaleString()}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spectrum-Stepper"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="spectrum-Stepper-btn" onclick="changeQty(${id},-1)"&gt;−&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="spectrum-Stepper-value"&gt;${cart[id]}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="spectrum-Stepper-btn" onclick="changeQty(${id},1)"&gt;+&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="spectrum-ActionButton" onclick="removeFromCart(${id})" style="margin-left:6px;font-size:12px" title="削除"&gt;🗑&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}).join('');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('totalPrice').textContent = '¥' + total.toLocaleString();</p>
-<p class="p1">}</p>
-<p class="p1">function toggleCart() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const open = document.getElementById('drawer').classList.toggle('is-open');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('overlay').classList.toggle('is-open', open);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (open) renderCart();</p>
-<p class="p1">}</p>
-<p class="p1">function checkout() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>cart = {}; updateCartBadge(); toggleCart();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>showToast('✅ ご注文ありがとうございます！');</p>
-<p class="p1">}</p>
-<p class="p1">function showToast(msg) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const t = document.getElementById('toast'); t.textContent = msg;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>t.classList.add('is-open');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>setTimeout(() =&gt; t.classList.remove('is-open'), 2800);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">renderProducts();</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<!-- Top Navigation Shell -->
+<header class="spectrum-Shell">
+  <div class="spectrum-Shell-appName" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <div class="brand-icon">🛍</div>
+    ShopWave
+  </div>
+  <div class="spectrum-Shell-search">
+    <span class="spectrum-Shell-search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="商品を検索..." oninput="filterProducts()">
+  </div>
+  <div class="spectrum-Shell-actions">
+    <button class="spectrum-Button spectrum-Button--secondary" onclick="toggleCart()">
+      🛒 カート <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="spectrum-Subheader">
+  <a href="#">ホーム</a><span class="breadcrumb-sep">/</span>
+  <span id="breadcrumbCat">すべての商品</span>
+</nav>
+
+<!-- Hero -->
+<section class="spectrum-Hero">
+  <div class="spectrum-Hero-eyebrow">Spring Collection 2025</div>
+  <h1 class="spectrum-Hero-heading">トレンドを、あなたの手に。</h1>
+  <p class="spectrum-Hero-body">最新アイテムが毎日入荷中。送料無料・翌日配送対応。</p>
+  <div class="spectrum-Hero-actions">
+    <button class="spectrum-Button spectrum-Button--cta" onclick="document.getElementById('main').scrollIntoView({behavior:'smooth'})">今すぐショッピング</button>
+    <button class="spectrum-Button spectrum-Button--secondary">キャンペーンを見る</button>
+  </div>
+</section>
+
+<!-- Main Layout -->
+<div class="spectrum-Layout" id="main">
+
+  <!-- Left Rail -->
+  <aside class="spectrum-Rail">
+    <div class="spectrum-Rail-title">カテゴリー</div>
+    <ul class="spectrum-SideNav" id="sideNav"></ul>
+  </aside>
+
+  <!-- Content -->
+  <main class="spectrum-Content">
+    <div class="spectrum-Toolbar">
+      <div class="spectrum-Toolbar-title" id="sectionTitle">すべての商品</div>
+      <div class="spectrum-Toolbar-right">
+        <span class="spectrum-Tag" id="resultCount">12件</span>
+      </div>
+    </div>
+    <div class="spectrum-Grid" id="productGrid"></div>
+  </main>
+
+</div>
+
+<!-- Cart Drawer -->
+<div class="spectrum-Overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="spectrum-Drawer" id="drawer">
+  <div class="spectrum-Drawer-header">
+    <h2>🛒 カート</h2>
+    <button class="spectrum-ActionButton" onclick="toggleCart()" title="閉じる">✕</button>
+  </div>
+  <div class="spectrum-Drawer-body" id="cartBody"></div>
+  <div class="spectrum-Drawer-footer" id="cartFooter" style="display:none">
+    <div class="spectrum-Drawer-total">
+      <span>合計金額</span>
+      <span id="totalPrice">¥0</span>
+    </div>
+    <hr class="spectrum-Divider">
+    <button class="spectrum-Button spectrum-Button--cta spectrum-Button--full" onclick="checkout()">レジへ進む →</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="spectrum-Toast" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  { id:1,  name:'ワイヤレスイヤホン Pro', cat:'電子機器', price:12800, emoji:'🎧', desc:'ノイズキャンセリング搭載。最大30時間再生。', isNew:true },
+  { id:2,  name:'スマートウォッチ X5',    cat:'電子機器', price:24800, emoji:'⌚', desc:'健康管理・GPS対応。防水仕様。', isNew:false },
+  { id:3,  name:'メカニカルキーボード',   cat:'電子機器', price:8900,  emoji:'⌨️', desc:'RGB対応。打鍵感抜群の青軸モデル。', isNew:false },
+  { id:4,  name:'プレミアムスニーカー',   cat:'ファッション', price:15000, emoji:'👟', desc:'軽量ソール採用。カジュアル〜スポーツまで。', isNew:true },
+  { id:5,  name:'ミニマルレザー財布',     cat:'ファッション', price:5800,  emoji:'👛', desc:'イタリア製本革。カードスロット×8。', isNew:false },
+  { id:6,  name:'デザインTシャツ',        cat:'ファッション', price:3200,  emoji:'👕', desc:'オーガニックコットン100%。全12色展開。', isNew:false },
+  { id:7,  name:'アロマディフューザー',   cat:'インテリア', price:4500,  emoji:'🕯️', desc:'超音波式。7色LEDライト内蔵。', isNew:true },
+  { id:8,  name:'北欧風クッション',       cat:'インテリア', price:2800,  emoji:'🛋️', desc:'やわらかマイクロファイバー素材。', isNew:false },
+  { id:9,  name:'観葉植物セット',         cat:'インテリア', price:6200,  emoji:'🪴', desc:'初心者向け3点セット。鉢付き。', isNew:false },
+  { id:10, name:'コールドブリューボトル', cat:'キッチン', price:3600,  emoji:'🫙', desc:'ガラス製1L。冷蔵庫にすっきり収納。', isNew:true },
+  { id:11, name:'セラミックマグカップ',   cat:'キッチン', price:1800,  emoji:'☕', desc:'電子レンジ・食洗機対応。300ml。', isNew:false },
+  { id:12, name:'電動ハンドミキサー',     cat:'キッチン', price:5400,  emoji:'🍳', desc:'5段階速度調節。パワフル200W。', isNew:false },
+];
+
+const CATS = ['すべて', ...new Set(PRODUCTS.map(p => p.cat))];
+const CAT_LABEL = { 'すべて':'すべての商品', '電子機器':'電子機器', 'ファッション':'ファッション', 'インテリア':'インテリア', 'キッチン':'キッチン' };
+let currentCat = 'すべて', searchQ = '', cart = {};
+
+// Side Nav
+const nav = document.getElementById('sideNav');
+CATS.forEach(c => {
+  const cnt = c === 'すべて' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === c).length;
+  const li = document.createElement('li'); li.className = 'spectrum-SideNav-item';
+  const btn = document.createElement('button');
+  btn.className = 'spectrum-SideNav-link' + (c === currentCat ? ' is-selected' : '');
+  btn.innerHTML = `<span>${CAT_LABEL[c]}</span><span class="spectrum-SideNav-count">${cnt}</span>`;
+  btn.onclick = () => { currentCat = c; renderNav(); renderProducts(); updateBreadcrumb(); };
+  li.appendChild(btn); nav.appendChild(li);
+});
+
+function renderNav() {
+  nav.querySelectorAll('.spectrum-SideNav-link').forEach((b, i) => b.classList.toggle('is-selected', CATS[i] === currentCat));
+}
+function updateBreadcrumb() {
+  document.getElementById('breadcrumbCat').textContent = CAT_LABEL[currentCat] || currentCat;
+}
+function filterProducts() {
+  searchQ = document.getElementById('searchInput').value.trim().toLowerCase();
+  renderProducts();
+}
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  const title = document.getElementById('sectionTitle');
+  const cnt = document.getElementById('resultCount');
+  let filtered = PRODUCTS.filter(p =>
+    (currentCat === 'すべて' || p.cat === currentCat) &&
+    (!searchQ || p.name.toLowerCase().includes(searchQ) || p.cat.includes(searchQ) || p.desc.includes(searchQ))
+  );
+  title.textContent = CAT_LABEL[currentCat] || currentCat;
+  cnt.textContent = `${filtered.length}件`;
+  grid.innerHTML = '';
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="spectrum-EmptyState" style="grid-column:1/-1">
+      <div class="spectrum-EmptyState-icon">🔍</div>
+      <div class="spectrum-EmptyState-heading">該当する商品が見つかりません</div>
+      <p style="font-size:13px">検索ワードやカテゴリーを変更してみてください。</p>
+    </div>`; return;
+  }
+  filtered.forEach(p => {
+    const el = document.createElement('div'); el.className = 'spectrum-Card';
+    el.innerHTML = `
+      <div class="spectrum-Card-preview">
+        ${p.emoji}
+        ${p.isNew ? '<span class="spectrum-Tag spectrum-Tag--blue spectrum-Card-badge">NEW</span>' : ''}
+      </div>
+      <div class="spectrum-Card-body">
+        <div class="spectrum-Card-subtitle">${p.cat}</div>
+        <div class="spectrum-Card-title">${p.name}</div>
+        <div class="spectrum-Card-desc">${p.desc}</div>
+        <div class="spectrum-Card-footer">
+          <div class="spectrum-Card-price">¥${p.price.toLocaleString()} <small>税込</small></div>
+          <button class="spectrum-Button spectrum-Button--cta" style="height:28px;padding:0 12px;font-size:12px" onclick="addToCart(${p.id})">+ 追加</button>
+        </div>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCartBadge();
+  const p = PRODUCTS.find(x => x.id === id);
+  showToast(`✅ ${p.name} をカートに追加しました`);
+}
+function removeFromCart(id) { delete cart[id]; updateCartBadge(); renderCart(); }
+function changeQty(id, d) {
+  cart[id] = (cart[id] || 0) + d;
+  if (cart[id] <= 0) delete cart[id];
+  updateCartBadge(); renderCart();
+}
+function updateCartBadge() {
+  document.getElementById('cartBadge').textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+}
+function renderCart() {
+  const body = document.getElementById('cartBody'), footer = document.getElementById('cartFooter');
+  const keys = Object.keys(cart);
+  if (!keys.length) {
+    body.innerHTML = `<div class="spectrum-Cart-empty"><div class="spectrum-Cart-empty-icon">🛒</div><p>カートに商品がありません</p></div>`;
+    footer.style.display = 'none'; return;
+  }
+  footer.style.display = '';
+  let total = 0;
+  body.innerHTML = keys.map(id => {
+    const p = PRODUCTS.find(x => x.id == id), sub = p.price * cart[id]; total += sub;
+    return `<div class="spectrum-CartItem">
+      <div class="spectrum-CartItem-icon">${p.emoji}</div>
+      <div class="spectrum-CartItem-info">
+        <div class="spectrum-CartItem-name">${p.name}</div>
+        <div class="spectrum-CartItem-price">¥${p.price.toLocaleString()} × ${cart[id]} = ¥${sub.toLocaleString()}</div>
+        <div class="spectrum-Stepper">
+          <button class="spectrum-Stepper-btn" onclick="changeQty(${id},-1)">−</button>
+          <span class="spectrum-Stepper-value">${cart[id]}</span>
+          <button class="spectrum-Stepper-btn" onclick="changeQty(${id},1)">+</button>
+          <button class="spectrum-ActionButton" onclick="removeFromCart(${id})" style="margin-left:6px;font-size:12px" title="削除">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('totalPrice').textContent = '¥' + total.toLocaleString();
+}
+function toggleCart() {
+  const open = document.getElementById('drawer').classList.toggle('is-open');
+  document.getElementById('overlay').classList.toggle('is-open', open);
+  if (open) renderCart();
+}
+function checkout() {
+  cart = {}; updateCartBadge(); toggleCart();
+  showToast('✅ ご注文ありがとうございます！');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('is-open');
+  setTimeout(() => t.classList.remove('is-open'), 2800);
+}
+
+renderProducts();
+</script>
 </body>
 </html>
